@@ -28,6 +28,7 @@ function isMatrix(_matrix){
                 nCnt+=(!isNaN(parseFloat(_matrix[i])))?1:0;
             }
             else{
+                if(_matrix[i].length==0) return false;
                 for(j=0;j<_matrix[i].length;j++){
                     nCnt+=(!isNaN(parseFloat(_matrix[i][j])))?1:0;
                 }
@@ -67,9 +68,11 @@ function unit(_level){
 function transpose(_matrix){
     var _arr = new Array();
     if(isMatrix(_matrix)){
-        for(i=0;i<getColumn(_matrix);i++){
+        var cols = getColumn(_matrix);
+        var rows = getRow(_matrix);
+        for(i=0;i<cols;i++){
             var sArr = new Array();
-            for(j=0;j<getRow(_matrix);j++){
+            for(j=0;j<rows;j++){
                 sArr.push(_matrix[j][i]);
             }
             _arr.push(sArr);
