@@ -97,7 +97,7 @@ function mMult(_matrixA,_matrixB){
     var mArr = new Array();
     if(!isNaN(getRow(_matrixA))){
         if(getColumn(_matrixA)==getRow(_matrixB)){
-            
+            alert('');
         }
     }
     return mArr;
