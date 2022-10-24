@@ -63,6 +63,20 @@ function unit(_level){
     }
     return _arr;
 }
+// Transpose matrix
+function transpose(_matrix){
+    var _arr = new Array();
+    if(isMatrix(_matrix)){
+        for(i=0;i<getColumn(_matrix);i++){
+            var sArr = new Array();
+            for(j=0;j<getRow(_matrix);j++){
+                sArr.push(_matrix[j][i]);
+            }
+            _arr.push(sArr);
+        }
+    }
+    return _arr;
+}
 // Multiply _factor to every element in _matrix
 function scale(_factor,_matrix){
     var _arr = new Array();
