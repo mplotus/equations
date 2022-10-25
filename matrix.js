@@ -198,5 +198,48 @@ class Matrix{
         }
         return new Matrix(mArr);
     }
-    
+    // Matrix inverse of this matrix
+    inverse() {
+        if(this.isSquare()) {
+            var arrMat = new Array(); var factS = new Array(); var factA = new Array();
+            arrMat.push(this);
+            var i = 0; var sumS = 0;
+            while(i<this.row()) {
+                sumS += this.item(i,i);
+                i++;
+            }
+            factS.push(sumS); factA.push(-sumS);
+            i = 1;
+            while(i<this.row()) {
+                var capMat = this.multiply(arrMat[i-1]);
+                arrMat.push(capMat);
+                var j = 0; sumS = 0;
+                while(j<this.row()) {
+                    sumS += capMat.item(j,j);
+                    j++;
+                }
+                factS.push(sumS);
+                var sumA = 0; j = 0;
+                while(j<i) {
+                    sumA += factS[j] * factA[i-j-1];
+                    j++;
+                }
+                factA.push(-(sumA + factS[i])/(i+1));
+                i++;
+            }
+            if(factA[factA.length-1] == 0) return NaN;
+            else {
+                var maxMat = arrMat[arrMat.length-2];
+                var minMat = maxMat.plus(maxMat.unit().scale(factA[factA.length-2]));
+                var i = 0;
+                while(i<(this.row()-2)) {
+                    minMat = minMat.plus(arrMat[arrMat.length-3-i].scale(factA[i]));
+                    i++;
+                }
+                var iMat = minMat.scale(-1/factA[factA.length-1]);
+                return iMat;
+            }
+        }
+        else return NaN;
+    }
 }
