@@ -7,8 +7,9 @@
             var txt_numvar;
             function page_load(){
                 txt_numvar = document.getElementById('txt_numvar');
-                var ar=[[1,2,3],[4,5,6],[7,8,9]];
-                //alert(transpose(ar).toString());
+                //var ar = [[1,2],[3,4]];
+                let mtr = new Matrix([[1,2],[3,4]]);
+                alert(mtr.size());
             }
             function txt_numvar_keyup(event){
                 if(event.keyCode==13){
