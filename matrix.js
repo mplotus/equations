@@ -1,12 +1,27 @@
 class Matrix{
     constructor(_array){
-        this.arr=_array;
+        var i = 0;
+        var _arr = new Array();
+        while(i<_array.length) {
+            var sArr = new Array();
+            if(isNaN(_array[i].length)) sArr.push(_array[i]);
+            else {
+                var j = 0;
+                while(j<_array[i].length) {
+                    sArr.push(_array[i][j]);
+                    j++;
+                }
+            }
+            _arr.push(sArr);
+            i++;
+        }
+        this.arr=_arr;
     }
     // Get number of element in array
     size() {
         var mSize = 0;
         var i=0;
-        while(i<this.arr.length){
+        while(i<this.arr.length) {
             if(isNaN(this.arr[i].length)) mSize++;
             else mSize+=this.arr[i].length;
             i++;
@@ -17,17 +32,17 @@ class Matrix{
     isMatrix() {
         var _isMat = true;
         if(this.arr.length==0) _isMat = false;
-        else{
+        else {
             var nCnt = 0;
             var i=0;
-            while(i<this.arr.length){
-                if(isNaN(this.arr[i].length)){
+            while(i<this.arr.length) {
+                if(isNaN(this.arr[i].length)) {
                     nCnt+=(!isNaN(parseFloat(this.arr[i])))?1:0;
                 }
-                else{
+                else {
                     if(this.arr[i].length==0) return false;
                     var j=0;
-                    while(j<this.arr[i].length){
+                    while(j<this.arr[i].length) {
                         nCnt+=(!isNaN(parseFloat(this.arr[i][j])))?1:0;
                         j++;
                     }
@@ -35,7 +50,7 @@ class Matrix{
                 i++;
             }
             var mSize = this.size();
-            if(mSize==nCnt){
+            if(mSize==nCnt) {
                 if(mSize==this.arr.length) _isMat = true;
                 else _isMat = (mSize % this.arr.length == 0);
             }
@@ -53,114 +68,135 @@ class Matrix{
         if(!this.isMatrix()) return NaN;
         else return this.size()/this.arr.length;
     }
+    // Get item of matrix
+    item(_i,_j) {
+        if((_i>=this.row())||(_j>=this.column())) return NaN;
+        else return this.arr[_i][_j];
+    }
+    // Check array is square matrix
+    isSquare() {
+        var _isSqr = true;
+        if(!this.isMatrix()) _isSqr = false;
+        else _isSqr = ((this.size() % this.arr.length == 0) && (this.size() / this.arr.length == this.arr.length));
+        return _isSqr;
+    }
+    // Convert matrix to string
+    toString() {
+        if(!this.isMatrix()) return NaN;
+        else {
+            var mStr = '';
+            var i = 0;
+            while(i<this.row()){
+                var j = 0;
+                while(j<this.column()){
+                    mStr += this.arr[i][j] + ';';
+                    j++;
+                }
+                mStr += '\n';
+                i++;
+            }
+            return mStr;
+        }
+    }
+    // Make unit matrix with same level
+    unit() {
+        var lev = Math.min(this.row(),this.column());
+        var _arr = new Array();
+        var i = 0;
+        while(i<lev){
+            var sArr = new Array();
+            var j = 0;
+            while(j<lev){
+                if(i!=j) sArr.push(0);
+                else sArr.push(1);
+                j++;
+            }
+            _arr.push(sArr);
+            i++;
+        }
+        return new Matrix(_arr);
+    }
+    // Transpose matrix
+    transpose() {
+        var _arr = new Array();
+        if(this.isMatrix()) {
+            var i = 0;
+            while(i<this.column()) {
+                var sArr = new Array();
+                var j = 0;
+                while(j<this.row()) {
+                    sArr.push(this.arr[j][i]);
+                    j++;
+                }
+                _arr.push(sArr);
+                i++;
+            }
+        }
+        return new Matrix(_arr);
+    }
+    // Multiply factor to every element (scale)
+    scale(_factor) {
+        var _arr = new Array();
+        if(this.isMatrix()) {
+            var i = 0;
+            while(i<this.row()) {
+                var sArr = new Array();
+                var j = 0;
+                while(j<this.column()) {
+                    sArr.push(_factor * this.arr[i][j]);
+                    j++;
+                }
+                _arr.push(sArr);
+                i++;
+            }
+        }
+        return new Matrix(_arr);
+    }
+    // Plus matrix with matrixB
+    plus(_matrixB) {
+        var pArr = new Array();
+        if(this.isMatrix() && _matrixB.isMatrix()) {
+            if((this.row() == _matrixB.row()) && (this.column() == _matrixB.column())) {
+                var i = 0;
+                while(i<this.row()) {
+                    var j = 0;
+                    var sArr = new Array();
+                    while(j<this.column()) {
+                        sArr.push(this.arr[i][j] + _matrixB.item(i,j));
+                        j++;
+                    }
+                    pArr.push(sArr);
+                    i++;
+                }
+            }
+        }
+        return new Matrix(pArr);
+    }
+    // Multiply this matrix with matrixB
+    multiply(_matrixB) {
+        var mArr = new Array();
+        if(this.isMatrix() && _matrixB.isMatrix()) {
+            if(this.column() == _matrixB.row()) {
+                var i = 0;
+                while(i<this.row()) {
+                    var sArr = new Array();
+                    var j = 0;
+                    while(j<_matrixB.column()) {
+                        var sEle = 0;
+                        var t = 0;
+                        while(t<this.column()) {
+                            sEle += this.arr[i][t] * _matrixB.item(t,j);
+                            t++;
+                        }
+                        sArr.push(sEle);
+                        j++;
+                    }
+                    mArr.push(sArr);
+                    i++;
+                }
+            }
+        }
+        return new Matrix(mArr);
+    }
     
 }
-var Matrix2 = (function(){
-    return{
-        // Check array is square matrix
-        isSquare:function(_matrix){
-            var _isSqr = true;
-            if(!isMatrix(_matrix)) _isSqr = false;
-            else{
-                var mSize = getSize(_matrix);
-                _isSqr = ((mSize % _matrix.length == 0) && (mSize / _matrix.length == _matrix.length));
-            }
-            return _isSqr;
-        },
-        // Convert matrix to string
-        toString:function(_matrix){
-            if(!isMatrix(_matrix)) return NaN;
-            else{
-                var mStr = '';
-                var rows = getRow(_matrix);
-                var cols = getColumn(_matrix);
-                for(i=0;i<rows;i++){
-                    for(j=0;j<cols;j++){
-                        mStr+=_matrix[i][j]+';';
-                    }
-                    mStr+='\n';
-                }
-                return mStr;
-            }
-        },
-        // Make unit matrix level n
-        unit:function(_level){
-            var _arr = new Array();
-            for(i=0;i<_level;i++){
-                for(j=0;j<_level;j++){
-                    if(i!=j) _arr.push(0);
-                    else _arr.push(1);
-                }
-            }
-            return _arr;
-        },
-        // Transpose matrix
-        transpose:function(_matrix){
-            var _arr = new Array();
-            if(isMatrix(_matrix)){
-                var cols = getColumn(_matrix);
-                var rows = getRow(_matrix);
-                for(i=0;i<cols;i++){
-                    var sArr = new Array();
-                    for(j=0;j<rows;j++){
-                        sArr.push(_matrix[j][i]);
-                    }
-                    _arr.push(sArr);
-                }
-            }
-            return _arr;
-        },
-        // Multiply _factor to every element in _matrix
-        scale:function(_factor,_matrix){
-            var _arr = new Array();
-            for(i=0;i<_matrix.length;i++){
-                var _sArr = new Array();
-                for(j=0;j<_matrix[i].length;j++){
-                    _sArr.push(_factor * _matrix[i][j]);
-                }
-                _arr.push(_sArr);
-            }
-            return _arr;
-        },
-        // Plus _matrixA with _matrixB
-        plus:function(_matrixA,_matrixB){
-            var pArr = new Array();
-            if(!isNaN(getRow(_matrixA))){
-                if((getRow(_matrixA)==getRow(_matrixB) && 
-                (getColumn(_matrixA)==getColumn(_matrixB)))){
-                    for(i=0;i<getRow(_matrixA);i++){
-                        var sArr = new Array();
-                        for(j=0;j<getColumn(_matrixA);j++){
-                            sArr.push(_matrixA[i][j]+_matrixB[i][j]);
-                        }
-                        pArr.push(sArr);
-                    }
-                }
-            }
-            return pArr;
-        },
-        // Multiply _matrixA to _matrixB
-        multiply:function(_matrixA,_matrixB){
-            var mArr = new Array();
-            if(!isNaN(getRow(_matrixA))){
-                if(getColumn(_matrixA)==getRow(_matrixB)){
-                    var rows = getRow(_matrixA);
-                    var cols = getColumn(_matrixB);
-                    var eles = getColumn(_matrixA);
-                    for(i=0;i<rows;i++){
-                        var sArr = new Array();
-                        for(j=0;j<cols;j++){
-                            var sEle = 0;
-                            for(t=0;t<eles;t++){
-                                sEle+=_matrixA[i][t]*_matrixB[t][j];
-                            }
-                            sArr.push(sEle);
-                        }
-                        mArr.push(sArr);
-                    }
-                }
-            }
-            return mArr;
-        }
-    };
-})();
