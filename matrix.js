@@ -93,7 +93,7 @@ function scale(_factor,_matrix){
     return _arr;
 }
 // Plus _matrixA with _matrixB
-function mPlus(_matrixA,_matrixB){
+function plus(_matrixA,_matrixB){
     var pArr = new Array();
     if(!isNaN(getRow(_matrixA))){
         if((getRow(_matrixA)==getRow(_matrixB) && 
@@ -110,7 +110,7 @@ function mPlus(_matrixA,_matrixB){
     return pArr;
 }
 // Multiply _matrixA to _matrixB
-function mMult(_matrixA,_matrixB){
+function multiply(_matrixA,_matrixB){
     var mArr = new Array();
     if(!isNaN(getRow(_matrixA))){
         if(getColumn(_matrixA)==getRow(_matrixB)){
