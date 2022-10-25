@@ -2,62 +2,61 @@ class Matrix{
     constructor(_array){
         this.arr=_array;
     }
-    size(){
-        let mSize = 0;
-        let aLen = this.arr.length;
-        for(i=0;i<2;i++){
-            aLen++;
-        }
-        aLen--;
-        return aLen;
-    }
-}
-/*var Matrix2 = (function(){
-    return{
-        // Get number of element in matrix
-        getSize:function(_matrix){
-            var mSize = 0;
-        for(i=0;i<this.arr.length;i++){
+    // Get number of element in array
+    size() {
+        var mSize = 0;
+        var i=0;
+        while(i<this.arr.length){
             if(isNaN(this.arr[i].length)) mSize++;
             else mSize+=this.arr[i].length;
+            i++;
         }
-        },
-        // Get number of rows in matrix (length)
-        getRow:function(_matrix){
-            if(!isMatrix(_matrix)) return NaN;
-            else return _matrix.length;
-        },
-        // Get number of column in matrix
-        getColumn:function(_matrix){
-            if(!isMatrix(_matrix)) return NaN;
-            else return getSize(_matrix)/_matrix.length;
-        },
-        // Check array is matrix
-        isMatrix:function(_matrix){
-            var _isMat = true;
-            if(_matrix.length==0) _isMat = false;
-            else{
-                var nCnt = 0;
-                for(i=0;i<_matrix.length;i++){
-                    if(isNaN(_matrix[i].length)){
-                        nCnt+=(!isNaN(parseFloat(_matrix[i])))?1:0;
-                    }
-                    else{
-                        if(_matrix[i].length==0) return false;
-                        for(j=0;j<_matrix[i].length;j++){
-                            nCnt+=(!isNaN(parseFloat(_matrix[i][j])))?1:0;
-                        }
+        return mSize; 
+    }
+    // Check array is or not matrix (number)
+    isMatrix() {
+        var _isMat = true;
+        if(this.arr.length==0) _isMat = false;
+        else{
+            var nCnt = 0;
+            var i=0;
+            while(i<this.arr.length){
+                if(isNaN(this.arr[i].length)){
+                    nCnt+=(!isNaN(parseFloat(this.arr[i])))?1:0;
+                }
+                else{
+                    if(this.arr[i].length==0) return false;
+                    var j=0;
+                    while(j<this.arr[i].length){
+                        nCnt+=(!isNaN(parseFloat(this.arr[i][j])))?1:0;
+                        j++;
                     }
                 }
-                var mSize = getSize(_matrix);
-                if(mSize==nCnt){
-                    if(mSize==_matrix.length) _isMat = true;
-                    else _isMat = (mSize % _matrix.length == 0);
-                }
-                else _isMat = false;
+                i++;
             }
-            return _isMat;
-        },
+            var mSize = this.size();
+            if(mSize==nCnt){
+                if(mSize==this.arr.length) _isMat = true;
+                else _isMat = (mSize % this.arr.length == 0);
+            }
+            else _isMat = false;
+        }
+        return _isMat;
+    }
+    // Get number of row of matrix
+    row() {
+        if(!this.isMatrix()) return NaN;
+        else return this.arr.length;
+    }
+    // Get number of column of matrix
+    column() {
+        if(!this.isMatrix()) return NaN;
+        else return this.size()/this.arr.length;
+    }
+    
+}
+var Matrix2 = (function(){
+    return{
         // Check array is square matrix
         isSquare:function(_matrix){
             var _isSqr = true;
@@ -164,4 +163,4 @@ class Matrix{
             return mArr;
         }
     };
-})();*/
+})();
