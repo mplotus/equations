@@ -4,9 +4,12 @@ class Matrix{
         var _arr = new Array();
         while(i<_array.length) {
             var sArr = new Array();
-            if(isNaN(_array[i].length)) sArr.push(_array[i]);
+            if(isNaN(_array[i].length)) {
+                sArr.push(_array[i]);
+            }
             else {
                 var j = 0;
+                // _array[i] as string ???
                 while(j<_array[i].length) {
                     sArr.push(_array[i][j]);
                     j++;
@@ -241,5 +244,58 @@ class Matrix{
             }
         }
         else return NaN;
+    }
+    // Determination of matrix
+    determ() {
+        if(!this.isSquare()) return NaN;
+        else {
+            var detMat = 0;
+            if(this.row() == 1) return this.arr[0][0];
+            else {
+                var tempMat = new Array();
+                var tempI = this.row() - 2;
+                var i = tempI;
+                while(i<this.row()) {
+                    var j = tempI;
+                    var tempSMat = new Array();
+                    while(j<this.row()) {
+                        tempSMat.push(this.arr[i][j]);
+                        j++;
+                    }
+                    tempMat.push(tempSMat);
+                    i++;
+                }
+                detMat = tempMat[0][0] * tempMat[1][1] - tempMat[0][1] * tempMat[1][0];
+                while(tempI - 1 >= 0) {
+                    tempI--;
+                    var i = tempI;
+                    tempMat = new Array();
+                    while(i<this.row()) {
+                        var j = tempI;
+                        var tempSMat = new Array();
+                        while(j<this.row()) {
+                            tempSMat.push(this.arr[i][j]);
+                            j++;
+                        }
+                        tempMat.push(tempSMat);
+                        i++;
+                    }
+                    var tempInv = (new Matrix(tempMat)).inverse();
+                    detMat = detMat/tempInv.item(0,0);
+                }
+                return (Math.round(detMat * Math.pow(10,8))/Math.pow(10,8));
+            }
+        }
+    }
+    // Cofactor matrix of matrix
+    cofactor() {
+        var adjMat = this.adjugate();
+        return adjMat.transpose();
+    }
+    // Adjoint (adjugate) matrix
+    adjugate() {
+        var invMat = this.inverse();
+        var detMat = this.determ();
+        return invMat.scale(detMat);
     }
 }
