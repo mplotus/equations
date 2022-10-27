@@ -32,20 +32,20 @@
                     }
                     var tTab = document.createElement('table');
                     tTab.id='mainTable';
-                    tTab.style='font-size:80%; user-select:none;';
+                    tTab.style='font-size:80%; user-select:none; width:65%;';
                     var numvar = parseInt(txt_numvar.value);
                     for(i=0;i<=numvar+1;i++){
                         var tRow = document.createElement('tr');
                         for(j=1;j<=numvar+1;j++){
                             var tCell = document.createElement('td');
-                            tCell.style='text-align:center;';
+                            tCell.style='text-align:center;font-size:100%;';
                             if(i>0 && i<=numvar){
                                 var txt_cell = document.createElement('input');
                                 txt_cell.type='text';
                                 txt_cell.maxlength='2';
                                 txt_cell.id='cell'+i+''+j;
                                 txt_cell.value='0';
-                                txt_cell.style='width:50px;text-align:center;';
+                                txt_cell.style='width:100%; text-align:center; font-size:80%;';
                                 tCell.appendChild(txt_cell);
                             }
                             else{
@@ -139,7 +139,7 @@
             }
         </script>
     </head>
-    <body onload='page_load()' style='user-select: none; font-size:200%;'>
+    <body onload='page_load()' style='user-select: none; font-size:200%; background:lightgray;'>
         Number of variable:
         <input type='text' id='txt_numvar' value='2' maxlength='2' style='width:50px;text-align:center;font-size:80%;' onkeyup='txt_numvar_keyup(event)'></br>
     </body>
