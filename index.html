@@ -32,6 +32,7 @@
                     }
                     var tTab = document.createElement('table');
                     tTab.id='mainTable';
+                    tTab.style='font-size:80%; user-select:none;';
                     var numvar = parseInt(txt_numvar.value);
                     for(i=0;i<=numvar+1;i++){
                         var tRow = document.createElement('tr');
@@ -62,6 +63,7 @@
                                         tCell.colSpan=numvar+1;
                                         var btt_solve = document.createElement('button');
                                         btt_solve.innerText='SOLVE THESE EQUATIONS';
+                                        btt_solve.style='font-size:80%;';
                                         btt_solve.addEventListener('click',btt_solve_click);
                                         tCell.appendChild(btt_solve);
                                     }
@@ -137,8 +139,8 @@
             }
         </script>
     </head>
-    <body onload='page_load()'>
+    <body onload='page_load()' style='user-select: none; font-size:200%;'>
         Number of variable:
-        <input type='text' id='txt_numvar' value='2' maxlength='2' style='width:50px;text-align:center;' onkeyup='txt_numvar_keyup(event)'></br>
+        <input type='text' id='txt_numvar' value='2' maxlength='2' style='width:50px;text-align:center;font-size:80%;' onkeyup='txt_numvar_keyup(event)'></br>
     </body>
 </html>
